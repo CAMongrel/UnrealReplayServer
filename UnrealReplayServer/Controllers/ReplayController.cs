@@ -31,6 +31,21 @@ namespace UnrealReplayServer.Controllers
         }
 
         #region Uploading
+        [HttpPost]
+        public async Task<StartSessionResponse> PostStartSession(string app, string version, int? cl, string friendlyName)
+        {
+            string session = Guid.NewGuid().ToString("N");
+
+            _logger.LogInformation($"ReplayController.PostStartSession -- session: {session}, app: {app}, version: {version}, cl: {cl}, friendlyName: {friendlyName}");
+
+            var sessionId = await sessionDatabase.CreateSession(session, app, version, cl, friendlyName);
+
+            return new StartSessionResponse()
+            {
+                SessionId = sessionId
+            };
+        }
+
         [HttpPost("{session}")]
         public async Task<StartSessionResponse> PostStartSession(string session, string app, string version, int? cl, string friendlyName)
         {
