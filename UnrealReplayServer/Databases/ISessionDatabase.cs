@@ -1,4 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿/*
+The MIT License (MIT)
+Copyright (c) 2021 Henning Thoele
+*/
+
+using System.Threading.Tasks;
 using UnrealReplayServer.Databases.Models;
 
 namespace UnrealReplayServer.Databases

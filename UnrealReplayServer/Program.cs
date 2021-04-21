@@ -1,3 +1,8 @@
+/*
+The MIT License (MIT)
+Copyright (c) 2021 Henning Thoele
+*/
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
