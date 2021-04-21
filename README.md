@@ -4,8 +4,17 @@ This is a sample implementation of an Unreal Engine 4 HTTP Replay Streaming Samp
 > Important!   
 > This is in no way intended to be production ready. The current implementation uses in-memory storage 
 of replays, so all your precious replays will be gone when you restart the server.  
-> The code also currently doesn't use containers, databases, caching mechanisms and so on. 
+> The code also currently doesn't use containers, databases, caching mechanisms and so on.  
 > You have been warned!
+
+## What is HTTP Replay Streaming?
+Unreal Engine 4 allows you to record and play replays of your gaming sessions. There are various factories for this (in-memory of the Client, to file on Client, to SaveGame on Client) and the HTTP streaming server is one of them. This project implements such a 
+server, which allows users to record their playback to a server and let other people rewatch the same replay from their own
+computer later using a shared session name.  
+
+> Note:  
+> This doesn't mean that you can use this to record replays of any Unreal Engine game out there.  
+> This project is for developers creating their own UE game and wanting to provide an Internet-based replay service.  
 
 ## Usage
 In your Unreal projects DefaultEngine.ini you have to set the HttpNetworkReplayStreaming class as the replay streaming factory and 
@@ -19,6 +28,7 @@ DefaultFactoryName=HttpNetworkReplayStreaming
 [HttpNetworkReplayStreaming]
 ServerURL="http://127.0.0.1:5000/"
 ```
+(replace the ServerURL with whatever you have, of course)  
 
 Then just run this server, open up a level in Unreal Editor, play in Editor (or standalone) and use the 
 Engine console to record a replay:
@@ -32,7 +42,7 @@ To play the recording use `demoplay test`.
 (The C++ functions mentioned on that page may also provide you with more control over the process).
 
 You should record at least 10 or more seconds, otherwise you won't see much when you replay the recording (because it's already 
-finished, before the level has come up properly).
+finished before the level has come up properly).
 
 ## Enhancements
 
@@ -43,6 +53,10 @@ The interfaces expose all their methods as `async`, so it should be easily possi
 other database framework for persistency.  
 
 I did not pay attention to optimization. There's probably a lot that could be done in this regard ;-)
+
+Live replay isn't tested and probably doesn't work, because I return `false` whenever "is live" is mentioned somewhere. 
+However, it shouldn't be hard to implement, because it's likely mostly about setting "is live" correctly and managing timestamps 
+more cleanly.
 
 ## License
 
