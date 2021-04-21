@@ -1,4 +1,4 @@
-# UnrealReplayServer
+# Unreal Engine HTTP Replay Server
 This is a sample implementation of an Unreal Engine 4 HTTP Replay Streaming Sample Server using ASP.NET 5
 
 > Important!   
