@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using UnrealReplayServer.Databases.Models;
 
 namespace UnrealReplayServer.Databases
 {
