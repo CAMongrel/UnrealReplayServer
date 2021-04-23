@@ -51,6 +51,11 @@ namespace UnrealReplayServer.Databases.Models
 
         internal string AddViewer(string user)
         {
+            if (Viewers.ContainsKey(user))
+            {
+                Viewers.Remove(user);
+            }
+
             Viewers.Add(user, new SessionViewer()
             {
                 Username = user,

@@ -213,7 +213,7 @@ namespace UnrealReplayServer.Controllers
             var resp = new StartDownloadingResponse()
             {
                 NumChunks = session.TotalChunks,
-                State = string.Empty,
+                State = session.IsLive ? "Live" : string.Empty,
                 Time = session.TotalDemoTimeMs,
                 ViewerId = viewerId
             };
@@ -276,19 +276,27 @@ namespace UnrealReplayServer.Controllers
             {
                 var session = await sessionDatabase.GetSessionByName(sessionName);
                 var sessionFile = await sessionDatabase.GetSessionChunk(sessionName, chunkIndex.Value);
-                if (session != null && 
-                    sessionFile != null)
+                if (session != null)
                 {
-                    resultData = sessionFile.Data;
-
                     Response.Headers.Add("NumChunks", session.TotalChunks.ToString());
                     Response.Headers.Add("Time", session.TotalDemoTimeMs.ToString());
                     Response.Headers.Add("State", session.IsLive ? "Live" : string.Empty);
-                    Response.Headers.Add("MTime1", session.IsLive ? throw new NotImplementedException() : "0");
-                    Response.Headers.Add("MTime2", sessionFile.EndTimeMs.ToString());
 
-                    Response.ContentType = "application/octet-stream";
-                    Response.ContentLength = resultData.Length;
+                    if (sessionFile != null)
+                    {
+                        Response.Headers.Add("MTime1", sessionFile.StartTimeMs.ToString());
+                        Response.Headers.Add("MTime2", sessionFile.EndTimeMs.ToString());
+
+                        resultData = sessionFile.Data;
+
+                        Response.ContentType = "application/octet-stream";
+                        Response.ContentLength = resultData.Length;
+                    }
+                    else
+                    {
+                        Response.ContentType = "application/octet-stream";
+                        Response.ContentLength = 0;
+                    }
 
                     Response.StatusCode = (int)HttpStatusCode.OK;
                 }

@@ -29,7 +29,8 @@ namespace UnrealReplayServer.Databases
                 NetVersion = setNetVersion,
                 PlatformFriendlyName = setPlatformFriendlyName,
                 Changelist = setChangelist != null ? setChangelist.Value : 0,
-                SessionName = setSessionName
+                SessionName = setSessionName,
+                IsLive = true
             };
             SessionList.Add(newSession.SessionName, newSession);
             return newSession.SessionName;
@@ -126,6 +127,7 @@ namespace UnrealReplayServer.Databases
             }
 
             var session = SessionList[sessionName];
+            session.IsLive = false;
             session.TotalDemoTimeMs = totalDemoTimeMs;
             session.TotalChunks = totalChunks;
             session.TotalUploadedBytes = totalBytes;
